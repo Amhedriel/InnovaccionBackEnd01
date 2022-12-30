@@ -124,6 +124,38 @@ Sin embargo mas adelante conoceremos una manera de esconder toda esta informaci�
 
 Crearemos otra constante que se llame:
 
-    const host = '0.0.0.0';
+    const port =
 
-El puerto es donde se va a ejecutar, es el puerto. 1.51.31
+El puerto es donde se va a ejecutar, es el puerto. Así que vamos a usar el puerto 3000
+
+    const port = 3000;
+
+Y usaremos otra constante que se llame `server` y mandaremos a llamar a `http.createServer`
+
+    const server = http.createServer()
+
+Con esto le estamos pidiendo que cree un servidor.
+Qué necesitamos de ese servidor? lo haremos con una "función anónima" como si fuese un argumento, es decir: se hace una auto referencia.
+Pero qué necesitamos? toda petición de `http` necesita un `respawn` y un ``request`` esta última es la petición, y la respuesta del `respawn`.
+
+    const server = http.createServer((req,res) => { });
+
+Ahora esto se conoce también como "Función Flecha =>{}" y llenaremos la función con `res.statusCode = 200`, existen 5 **estatus code**
+.
+
+1. **estatus code** 200, quiere decir que todo está bien.
+
+2. **estatus code** 300, que significa una redirección, tu petición se irá a otro lado, como hacen los ADDs.
+
+3. **estatus code** 400, significa que el cliente está baboso, pero no el usuario, si no la página, pude que el Front End tenga algún error, tal vez el formulario no envió lo que necesitaba el Back End, por eso generalmente el Back End se realiza primero, para evitar los errores 400.
+
+4. **estatus code** 500, si en la página en la que quieres ingresar aparece un error 500 no se puede hacer nada, este es error de Back End.
+
+5. **estatus code** 404, es error de: *no existe* o error del usuario.
+
+1.56.53
+
+
+
+
+
