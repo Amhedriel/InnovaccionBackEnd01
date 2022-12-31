@@ -128,7 +128,11 @@ Crearemos otra constante que se llame:
 
 El puerto es donde se va a ejecutar, es el puerto. Así que vamos a usar el puerto 3000
 
+```js
+    const http = require('http');
+    const host = '0.0.0.0';
     const port = 3000;
+```
 
 Y usaremos otra constante que se llame `server` y mandaremos a llamar a `http.createServer`
 
@@ -136,7 +140,7 @@ Y usaremos otra constante que se llame `server` y mandaremos a llamar a `http.cr
 
 Con esto le estamos pidiendo que cree un servidor.
 Qué necesitamos de ese servidor? lo haremos con una "función anónima" como si fuese un argumento, es decir: se hace una auto referencia.
-Pero qué necesitamos? toda petición de `http` necesita un `respawn` y un ``request`` esta última es la petición, y la respuesta del `respawn`.
+Pero qué necesitamos? toda petición de `http` necesita un `response` y un ``request`` esta última es la petición, y la respuesta del `response`.
 
     const server = http.createServer((req,res) => { });
 
@@ -149,13 +153,70 @@ Ahora esto se conoce también como "Función Flecha =>{}" y llenaremos la funci�
 
 3. **estatus code** 400, significa que el cliente está baboso, pero no el usuario, si no la página, pude que el Front End tenga algún error, tal vez el formulario no envió lo que necesitaba el Back End, por eso generalmente el Back End se realiza primero, para evitar los errores 400.
 
-4. **estatus code** 500, si en la página en la que quieres ingresar aparece un error 500 no se puede hacer nada, este es error de Back End.
+4. **estatus code** 500, si en la página en la que quieres ingresar aparece un error 500 no se puede hacer nada, este es error de Back End, o sea... estamos en problemas.
 
 5. **estatus code** 404, es error de: *no existe* o error del usuario.
 
-1.56.53
+Entonces colocamos el **response** `res.statusCode = 200` de "respuesta" para que nos de que todo está bien, ahora `res.setHeader`. Toda información, cuando entras a una página web se genera una petición `get` es decir "dame" información como el de los verbos, si tu pides una imagen y en su `Status Code: 200 (from disk cache)` quiere decir que todo está perfecto. Los **"headers"** son toda la información que está oculta del usuario, cliente, sirve para mandar la información de ida y vuelta y con una herramienta llamada "user agent" puedes saber de que sistema operativo estas entrando, de qué navegador, etc. En todo caso el `header` tiene los metadatos, toda la información que se manda, continuando con nuestro código:
+
+~~~js
+const server = http.createServer((req,res) => {
+  res.statusCode = 200
+  res.setHeader('Content-Type', 'text/plain')
+  res.end("Hola Mundo uwu")
+});
+~~~
+
+En el `header` estamos buscando el tipo de contenido `('Content-Type','text/plain')` de texto plano `Hola Mundo uwu`.
+
+## Correr programa
+
+Ahora para correr el programa lo primero que debemos encender el ``server`` con `server.listen();`, le debemos pasar el puerto `port` el `host` que es en donde va a vivir `server.listen(port, host, )` y le pasamos una función anónima que va a ser:
+
+```js
+server.listen(port, host, () => {
+  
+});
+```
+
+Entre las llaves colocamos `console.log("Server encendido en " + host + "/" + port)`:
+
+```js
+server.listen(port, host, () => {
+  console.log("Server encendido en " + host + "/" + port)
+});
+```
+Y listo, en el PShell colocamos `node .\index.js` para inicializar nuestro **"server"**.
+
+```PWS
+PS C:\Users\David\PracticasInnovaccionBackEnd\p1HolaMundoNode> node .\index.js      
+Hello World
+Server encendido en 0.0.0.0/3000
+_
+```
+
+Con esto nos vamos a ``localhost:3000`` para ver nuestro resultado
+
+![](/img/local.png)
 
 
+En el navegador presionamos F12 > RED > CTRL + R y revisamos nuestro localhost  > ENCABEZADOS
+
+![](/img/localhost.png)
+
+podemos ver el ok en nuestro `Código de estado: 200`, también nuestra ``Dirección remota: 127.0.0.1:3000`` y si vamos a "> Respuesta" veremos nuestro `Hola Mundo uwu`.
+
+Esa es un API que podemos consultar desde cualquier lugar.
+
+Abramos nuestra extensión
+
+![](/img/TalentAPITester.png)
+
+Que es un testeador de API's, nosotros usaremos otros más adelante, pero este sirve de momento.
+
+![](/img/APITester.png)
+
+Aqui le mandamos (send) `get` y nos devuelve un `Hola Mundo uwu`, le podemos mandar un JSON, le podemos mandar lo que queramos.
 
 
 
